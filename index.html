@@ -522,7 +522,7 @@ function startRandomizer(){
   }, 2000);
 }
 
-async async function startSaving(){
+async function startSaving(){
   localStorage.setItem('rules_agreed','1');
   await saveDateResponse();
   next('5c');
