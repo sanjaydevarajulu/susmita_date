@@ -224,11 +224,10 @@
 const SUPABASE_URL = 'https://axmjfouokciakybyfivl.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_4qtCPW8AgqZcPe2Qvoio-g_9id78WXP';
 
-const supabaseClient =
-  (SUPABASE_URL !== 'https://axmjfouokciakybyfivl.supabase.co' &&
-   SUPABASE_PUBLISHABLE_KEY !== 'sb_publishable_4qtCPW8AgqZcPe2Qvoio-g_9id78WXP')
-  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
-  : null;
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
 
 let responseId = localStorage.getItem('susmita_response_id') || null;
 
@@ -248,19 +247,16 @@ async function saveDateResponse() {
     photo_agreed: localStorage.getItem('photo_agreed') === '1'
   };
 
-  const { data, error } = await supabaseClient
+  const { error } = await supabaseClient
     .from('date_responses')
-    .insert(payload)
-    .select('id')
-    .single();
+    .insert(payload);
 
   if (error) {
     console.error('Could not save response:', error);
     return false;
   }
 
-  responseId = data.id;
-  localStorage.setItem('susmita_response_id', responseId);
+  localStorage.setItem('susmita_response_saved', '1');
   return true;
 }
 
